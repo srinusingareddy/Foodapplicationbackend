@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/user/orders")
 public class OrderController {
-
     @Autowired
     private CartRepository cartRepository;
 

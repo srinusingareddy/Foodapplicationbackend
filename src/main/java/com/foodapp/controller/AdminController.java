@@ -27,7 +27,7 @@ public class AdminController {
     @PostMapping("/restaurants")
     public Restaurant addRestaurant(@RequestBody Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
-    }
+    }	
 
     @PutMapping("/restaurants/{id}")
     public Restaurant updateRestaurant(
@@ -53,8 +53,26 @@ public class AdminController {
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
     }
+    @GetMapping("/restaurants/{id}")
+    public Restaurant getRestaurantById(@PathVariable Long id) {
+        return restaurantRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurant not found"));
+    }
+
+    @GetMapping("/fooditems/{id}")
+    public FoodItem getFoodItemById(@PathVariable Long id) {
+        return foodItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Food item not found"));
+    }
+
+    @GetMapping("/restaurants/{restaurantId}/fooditems")
+    public List<FoodItem> getFoodItemsByRestaurant(@PathVariable Long restaurantId) {
+        return foodItemRepository.findByRestaurantId(restaurantId);
+    }
+
 
     // ================= FOOD ITEM APIs =================
+    
 
     @PostMapping("/restaurants/{restaurantId}/fooditems")
     public FoodItem addFoodItem(

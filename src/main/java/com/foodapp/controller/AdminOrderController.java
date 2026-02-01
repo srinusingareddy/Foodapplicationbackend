@@ -1,12 +1,15 @@
 package com.foodapp.controller;
 
 import com.foodapp.model.Order;
+import com.foodapp.model.OrderItem;
 import com.foodapp.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/admin/orders")
 public class AdminOrderController {
@@ -14,22 +17,64 @@ public class AdminOrderController {
     @Autowired
     private OrderRepository orderRepository;
 
-    // 🟢 VIEW ALL ORDERS (ADMIN)
-    @GetMapping
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    // ✅ simple request body for status update
+    public static class StatusRequest {
+        public String status;
     }
 
-    // 🟡 UPDATE ORDER STATUS
+    // ✅ DTOs so admin can see user details + items safely
+    public record AdminOrderItemDTO(
+            Long id,
+            String foodName,
+            double price,
+            int quantity
+    ) {}
+
+    public record AdminOrderDTO(
+            Long id,
+            Long userId,
+            String userEmail,
+            String status,
+            double totalAmount,
+            LocalDateTime orderTime,
+            List<AdminOrderItemDTO> items
+    ) {}
+
+    // 🟢 VIEW ALL ORDERS (ADMIN) - return DTO
+    @GetMapping
+    public List<AdminOrderDTO> getAllOrders() {
+        return orderRepository.findAll().stream().map(o -> new AdminOrderDTO(
+                o.getId(),
+                o.getUser() != null ? o.getUser().getId() : null,
+                o.getUser() != null ? o.getUser().getEmail() : null,
+                o.getStatus(),
+                o.getTotalAmount(),
+                o.getOrderTime(),
+                o.getOrderItems() == null ? List.of() :
+                        o.getOrderItems().stream().map(this::toItemDTO).toList()
+        )).toList();
+    }
+
+    private AdminOrderItemDTO toItemDTO(OrderItem it) {
+        String foodName = (it.getFoodItem() != null) ? it.getFoodItem().getName() : "Item";
+        return new AdminOrderItemDTO(
+                it.getId(),
+                foodName,
+                it.getPrice(),
+                it.getQuantity()
+        );
+    }
+
+    // 🟡 UPDATE ORDER STATUS (JSON body)
     @PutMapping("/{orderId}/status")
     public Order updateOrderStatus(
             @PathVariable Long orderId,
-            @RequestParam String status) {
-
+            @RequestBody StatusRequest body
+    ) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        order.setStatus(status);
+        order.setStatus(body.status);
         return orderRepository.save(order);
     }
 }

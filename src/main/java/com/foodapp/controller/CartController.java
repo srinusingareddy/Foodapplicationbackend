@@ -70,4 +70,31 @@ public class CartController {
         cartRepository.deleteById(cartId);
         return "Item removed from cart";
     }
+    
+ // 🟡 INCREASE QUANTITY
+    @PutMapping("/{cartId}/increase")
+    public Cart increaseQuantity(@PathVariable Long cartId) {
+
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+
+        cart.setQuantity(cart.getQuantity() + 1);
+        return cartRepository.save(cart);
+    }
+
+    // 🟡 DECREASE QUANTITY
+    @PutMapping("/{cartId}/decrease")
+    public Cart decreaseQuantity(@PathVariable Long cartId) {
+
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+
+        if (cart.getQuantity() <= 1) {
+            throw new RuntimeException("Quantity cannot be less than 1");
+        }
+
+        cart.setQuantity(cart.getQuantity() - 1);
+        return cartRepository.save(cart);
+    }
+
 }
