@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = {
-        "http://localhost:5173",
-        "https://foodaplicationfrontend.onrender.com"
+		 "http://localhost:5173",
+ 	    "https://foodaplication-frontend1.onrender.com"
 })
 @RestController
 @RequestMapping("/api/user/orders")
