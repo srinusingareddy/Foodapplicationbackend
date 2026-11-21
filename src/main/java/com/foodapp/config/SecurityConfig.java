@@ -143,9 +143,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-            "http://localhost:5173",
-            "https://foodaplicationfrontend.onrender.com"
-        ));
+        	    "http://localhost:5173",
+        	    "https://foodaplication-frontend1.onrender.com"
+        	));
 
         config.setAllowedMethods(List.of(
             "GET", "POST", "PUT", "DELETE", "OPTIONS"

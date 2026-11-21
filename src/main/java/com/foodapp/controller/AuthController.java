@@ -18,8 +18,8 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 @CrossOrigin(
         origins = {
-                "http://localhost:5173",
-                "https://foodaplicationfrontend.onrender.com"
+        		"http://localhost:5173",
+        	    "https://foodaplication-frontend1.onrender.com"
         },
         allowedHeaders = "*",
         methods = {
