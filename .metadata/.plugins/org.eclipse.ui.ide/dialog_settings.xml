@@ -25,6 +25,7 @@
 		<item value="org.jboss.tools.m2e.wro4j.feature:1.2.1.202301111328"/>
 		<item value="org.sonatype.m2e.egit.feature:0.17.0.202209271423"/>
 	</list>
+<<<<<<< HEAD
 	<section name="ExternalProjectImportWizard">
 		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
@@ -45,4 +46,6 @@
 			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-24|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 		</section>
 	</section>
+=======
+>>>>>>> a838f7137b91badb73d0df1f201c232457f7fb4e
 </section>
